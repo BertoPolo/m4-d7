@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Button, Form } from "react-bootstrap"
 
-const AddComment = () => {
+const AddComment = ({ asin }) => {
   /* state = {
         comment: {
             comment: '',
@@ -10,7 +10,7 @@ const AddComment = () => {
         }
     } */
 
-  const [comment, setComment] = useState({ comment: "", rate: 1, elementId: null }) // not finished
+  const [comment, setComment] = useState({ comment: "", rate: 1, elementId: null })
 
   const prevAsinRef = useRef()
   useEffect(() => {
