@@ -1,15 +1,17 @@
-import { Component } from "react";
+import { useState, } from "react";
 import { Button, Form } from 'react-bootstrap'
 
-class AddComment extends Component {
+const AddComment =()=> {
 
-    state = {
+    /* state = {
         comment: {
             comment: '',
             rate: 1,
             elementId: null
         }
-    }
+    } */
+
+    const [comment,setComment] = useState() // not finished
 
     componentDidUpdate(prevProps) {
         if (prevProps.asin !== this.props.asin) {

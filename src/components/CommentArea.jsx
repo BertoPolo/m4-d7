@@ -1,22 +1,20 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import CommentList from "./CommentList"
 import AddComment from "./AddComment"
 import Loading from "./Loading"
 import Error from "./Error"
 
-const CommentArea = ({asin})=> {
-
+const CommentArea = ({ asin }) => {
   /* state = {
     comments: [], // comments will go here
     isLoading: false,
     isError: false,
   } */
-  const [comments,setComents]=useState([])
+  const [comments, setComments] = useState([])
 
-  const [isLoading,setIsLoading]=useState(false)
-  
-  const [isError,setIsError]=useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
+  const [isError, setIsError] = useState(false)
 
   /* componentDidUpdate = async (prevProps) => {
     if (prevProps.asin !== this.props.asin) {
@@ -24,48 +22,52 @@ const CommentArea = ({asin})=> {
         isLoading: true,
       }) */
 
-      useEffect( ()=>{
-        if (prevProps.asin !== this.props.asin) {
-            setState({
-              isLoading: true,
-            })
-        }
-      },[])
-      const fetcher = async ()=>{
-      try {
-        let response = await fetch(
-          "https://striveschool-api.herokuapp.com/api/comments/" + asin,
-          {
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA1MTBjOWRhNDBjOTAwMTVmYzhkNmEiLCJpYXQiOjE2NDc1MjIyMzUsImV4cCI6MTY0ODczMTgzNX0.mrWPCxzmzp7t1Lv9axQecZTfPC9nDqmsyQD8KbciOcg",
-            },
-          }
-        )
-        console.log(response)
-        if (response.ok) {
-          let comments = await response.json()
-          this.setState({ comments: comments, isLoading: false, isError: false })
-        } else {
-          console.log("error")
-          this.setState({ isLoading: false, isError: true })
-        }
-      } catch (error) {
-        console.log(error)
-        this.setState({ isLoading: false, isError: true })
+  const prevAsinRef = useRef()
+  useEffect(() => {
+    prevAsinRef.current = asin
+  }, [asin])
+
+  useEffect(() => {
+    if (prevAsinRef !== asin) {
+      setIsLoading(true)
+      fetcher()
+    }
+  }, [])
+
+  const fetcher = async () => {
+    try {
+      let response = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + asin, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA1MTBjOWRhNDBjOTAwMTVmYzhkNmEiLCJpYXQiOjE2NDc1MjIyMzUsImV4cCI6MTY0ODczMTgzNX0.mrWPCxzmzp7t1Lv9axQecZTfPC9nDqmsyQD8KbciOcg",
+        },
+      })
+      console.log(response)
+      if (response.ok) {
+        let comments = await response.json()
+        setComments(comments)
+        setIsLoading(false)
+        setIsError(false)
+      } else {
+        console.log("error")
+        setIsLoading(false)
+        setIsError(true)
       }
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+      setIsError(true)
     }
   }
 
-  
-    return (
-      <div>
-        {this.state.isLoading && <Loading />}
-        {this.state.isError && <Error />}
-        <AddComment asin={this.props.asin} />
-        <CommentList commentsToShow={this.state.comments} />
-      </div>
-    )
-  }}
+  return (
+    <div>
+      {isLoading && <Loading />}
+      {isError && <Error />}
+      <AddComment asin={asin} />
+      <CommentList commentsToShow={comments} />
+    </div>
+  )
+}
 
 export default CommentArea
