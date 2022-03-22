@@ -4,23 +4,37 @@ import AddComment from "./AddComment"
 import Loading from "./Loading"
 import Error from "./Error"
 
-const CommentArea =()=> {
+const CommentArea = ({asin})=> {
 
-  state = {
+  /* state = {
     comments: [], // comments will go here
     isLoading: false,
     isError: false,
-  }
+  } */
+  const [comments,setComents]=useState([])
 
-  componentDidUpdate = async (prevProps) => {
+  const [isLoading,setIsLoading]=useState(false)
+  
+  const [isError,setIsError]=useState(false)
+
+
+  /* componentDidUpdate = async (prevProps) => {
     if (prevProps.asin !== this.props.asin) {
       this.setState({
         isLoading: true,
-      })
+      }) */
 
+      useEffect( ()=>{
+        if (prevProps.asin !== this.props.asin) {
+            setState({
+              isLoading: true,
+            })
+        }
+      },[])
+      const fetcher = async ()=>{
       try {
         let response = await fetch(
-          "https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin,
+          "https://striveschool-api.herokuapp.com/api/comments/" + asin,
           {
             headers: {
               Authorization:
