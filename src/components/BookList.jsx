@@ -3,7 +3,7 @@ import SingleBook from "./SingleBook"
 import { Col, Container, Form, Row } from "react-bootstrap"
 import CommentArea from "./CommentArea"
 
-const BookList = () => {
+const BookList = ({ books }) => {
   /* state = {
         searchQuery: '',
         selectedBook: null
@@ -24,32 +24,28 @@ const BookList = () => {
                 <Form.Control
                   type="text"
                   placeholder="Search here"
-                  value={this.state.searchQuery}
-                  onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </Form.Group>
             </Col>
           </Row>
           <Row>
-            {this.props.books
-              .filter((b) => b.title.toLowerCase().includes(this.state.searchQuery))
+            {books
+              .filter((b) => b.title.toLowerCase().includes(searchQuery))
               .map((b) => (
                 <Col xs={3} key={b.asin}>
                   <SingleBook
                     book={b}
-                    selectedBook={this.state.selectedBook}
-                    changeSelectedBook={(asin) =>
-                      this.setState({
-                        selectedBook: asin,
-                      })
-                    }
+                    selectedBook={selectedBook}
+                    changeSelectedBook={(asin) => setSelectedBook(asin)}
                   />
                 </Col>
               ))}
           </Row>
         </Col>
         <Col md={4}>
-          <CommentArea asin={this.state.selectedBook} />
+          <CommentArea asin={selectedBook} />
         </Col>
       </Row>
     </Container>
