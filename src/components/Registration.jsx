@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Form, Button } from "react-bootstrap"
+import { Alert, Modal } from "react-bootstrap"
 
 const Registration = () => {
   const [name, setName] = useState("")
@@ -14,9 +15,21 @@ const Registration = () => {
   const formRegistrator = (e) => {
     e.preventDefault()
     if (password !== password2) {
-      alert("broooo mismatched your password, try it again!")
+      return <Alert variant={"danger"}>broooo mismatched your password, try it again!</Alert>
     } else {
-      alert("let's g000 enjoy our shop!")
+      ;<Modal.Dialog>
+        <Modal.Header closeButton>
+          <Modal.Title>Welcome</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>let's g000 enjoy our shop!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success">Enter</Button>
+        </Modal.Footer>
+      </Modal.Dialog>
+
       navigate("/home")
     }
   }
