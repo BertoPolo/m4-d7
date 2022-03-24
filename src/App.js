@@ -11,8 +11,8 @@ function App() {
       <div className="App">
         <header className="App-header">
           <Routes>
-            <Route path="/login" element={<Registration />} />
-            <Route path="/home" element={<BookList books={fantasyBooks} />} />
+            <Route path="/" element={<Registration />} />
+            <Route path="/BookList" element={<BookList books={fantasyBooks} />} />
           </Routes>
         </header>
       </div>
