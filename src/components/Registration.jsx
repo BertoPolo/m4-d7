@@ -14,10 +14,13 @@ const Registration = () => {
 
   const formRegistrator = (e) => {
     e.preventDefault()
+    e.target.reportValidity() ?   "able button" : "disable button " // here or in the button??
+
     if (password !== password2) {
       return <Alert variant={"danger"}>broooo mismatched your password, try it again!</Alert>
     } else {
-      ;<Modal.Dialog>
+      return(
+          <Modal.Dialog>
         <Modal.Header closeButton>
           <Modal.Title>Welcome</Modal.Title>
         </Modal.Header>
@@ -29,8 +32,8 @@ const Registration = () => {
           <Button variant="success">Enter</Button>
         </Modal.Footer>
       </Modal.Dialog>
-
-      navigate("/home")
+     {navigate("/home")}
+     )
     }
   }
 
