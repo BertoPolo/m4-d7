@@ -10,25 +10,25 @@ const AddComment = ({ asin }) => {
         }
     } */
 
-  const [comment, setComment] = useState({ comment: "", rate: 1, elementId: null })
+  const [comment, setComment] = useState({
+    comment: "",
+    rate: 1,
+    elementId: null,
+  })
 
-  const prevAsinRef = useRef()
   useEffect(() => {
-    prevAsinRef.current = asin
+    setComment((c) => ({
+      ...c,
+      elementId: asin,
+    }))
   }, [asin])
 
-  useEffect(() => {
-    if (prevAsinRef !== asin) {
-      setComment(...comment, setElementId(asin))
-    }
-  }, [])
-
-  sendComment = async (e) => {
+  const sendComment = async (e) => {
     e.preventDefault()
     try {
       let response = await fetch("https://striveschool-api.herokuapp.com/api/comments", {
         method: "POST",
-        body: JSON.stringify(this.state.comment), //kill it
+        body: JSON.stringify(comment),
         headers: {
           "Content-type": "application/json",
           Authorization:
@@ -38,6 +38,11 @@ const AddComment = ({ asin }) => {
       if (response.ok) {
         // the comment has been sent succesfully!!
         alert("Comment was sent!")
+        setComment({
+          comment: "",
+          rate: 1,
+          elementId: null,
+        })
       } else {
         console.log("error")
         alert("something went wrong")
@@ -49,19 +54,17 @@ const AddComment = ({ asin }) => {
 
   return (
     <div>
-      <Form onSubmit={this.sendComment}>
+      <Form onSubmit={sendComment}>
         <Form.Group>
           <Form.Label>Comment text</Form.Label>
           <Form.Control
             type="text"
             placeholder="Add comment here"
-            value={this.state.comment.comment}
+            value={comment.comment}
             onChange={(e) =>
-              this.setState({
-                comment: {
-                  ...this.state.comment,
-                  comment: e.target.value,
-                },
+              setComment({
+                ...comment,
+                comment: e.target.value,
               })
             }
           />
@@ -70,13 +73,11 @@ const AddComment = ({ asin }) => {
           <Form.Label>Rating</Form.Label>
           <Form.Control
             as="select"
-            value={this.state.comment.rate}
+            value={comment.rate}
             onChange={(e) =>
-              this.setState({
-                comment: {
-                  ...this.state.comment,
-                  rate: e.target.value,
-                },
+              setComment({
+                ...comment,
+                rate: e.target.value,
               })
             }
           >
