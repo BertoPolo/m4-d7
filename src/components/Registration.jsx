@@ -17,7 +17,7 @@ const Registration = () => {
       alert("broooo mismatched your password, try it again!")
     } else {
       alert("let's g000 enjoy our shop!")
-      navigate("/BookList")
+      navigate("/home")
     }
   }
 
@@ -27,7 +27,7 @@ All the messages / errors should be displayed properly in the component
 The submit button from the form should be enabled (=> not disabled) only when the form is validated and when every input's constraint is fulfilled.
 When clicked it should display a recap of the information submitted (you can choose between dynamically mounting a piece of JSX in the same component or redirecting the user to a new route). */
 
-    <Form onSubmit={() => formRegistrator()}>
+    <Form onSubmit={(e) => formRegistrator(e)}>
       <Form.Group>
         <Form.Label>Name</Form.Label>
         <Form.Control type="text" placeholder="Enter your name" required min="2" onChange={(e) => setName(e.target.value)} />
